@@ -1,0 +1,19 @@
+version: '3'
+services:
+  myr2r-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    environment:
+      - NEXT_PUBLIC_API_URL=http://traefik:80/api
+    # 定义 nextjs 端口，并映射到外部端口 （ 冒号前是外部）
+    ports:
+      - "3003:3005"
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=PathPrefix(`/`)"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=3003"
+
+    restart: always

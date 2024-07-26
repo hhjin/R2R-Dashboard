@@ -15,10 +15,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useUserContext } from '@/context/UserContext';
-import { ModelSelectorProps } from '@/types';
+
+interface ModelSelectorProps {
+  id?: string;
+}
 
 const predefinedModels = [
-  { value: 'gpt-4o-mini', label: 'GPT-4o-mini' },
+  { value: 'azure/gpt-4o', label: 'Azure GPT-4o' },
   { value: 'gpt-4o', label: 'GPT-4o' },
   { value: 'gpt-4-turbo', label: 'GPT-4 Turbo' },
   { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo' },
@@ -31,9 +34,13 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ id }) => {
   const [customModelValue, setCustomModelValue] = useState('');
   const [allModels, setAllModels] = useState(predefinedModels);
 
-  useEffect(() => {}, [selectedModel, allModels]);
+  useEffect(() => {
+    console.log('Current selected model:', selectedModel);
+    console.log('All available models:', allModels);
+  }, [selectedModel, allModels]);
 
   const handleSelectChange = (value: string) => {
+    console.log('Select value changed:', value);
     if (value === 'add_custom') {
       setIsDialogOpen(true);
     } else {
@@ -48,6 +55,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ id }) => {
   const handleCustomModelSubmit = () => {
     const trimmedValue = customModelValue.trim();
     if (trimmedValue !== '') {
+      console.log('Adding custom model:', trimmedValue);
       const newModel = { value: trimmedValue, label: trimmedValue };
       setAllModels((prevModels) => [...prevModels, newModel]);
       setSelectedModel(trimmedValue);

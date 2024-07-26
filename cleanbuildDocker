@@ -1,0 +1,7 @@
+docker compose down
+docker container stop R2R-darshboard 
+docker container rm R2R-darshboard
+docker image rm myr2r-dashboard
+docker build -t myr2r-dashboard . 
+# 启动 docker 容器,并把docker内部端口 3005映射 到3003
+docker run -d -p 3003:3005 --name R2R-darshboard  myr2r-dashboard
